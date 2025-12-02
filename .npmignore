@@ -1,0 +1,10 @@
+node_modules
+target
+__tests__
+bench
+.gitignore
+.npmignore
+*.log
+dist
+.turbo
+.DS_Store
