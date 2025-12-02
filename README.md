@@ -5,7 +5,7 @@ Blazing-fast Readability for Node/TypeScript backed by Rust (`dom_smoothie` + `n
 ## Quick start
 ```bash
 npm install
-npm run build   # compiles the native addon
+npm run build   # compiles the native addon (uses npx napi in native/)
 ```
 
 ## Usage
@@ -26,8 +26,7 @@ console.log(nativeVersion()); // crate version string
 
 ## Scripts
 - `npm test` – build + Vitest suite (uses real native binding)
-- `npm run bench` – rebuild and run microbenchmarks on bundled fixtures
-- `npm run build` – compile the native addon for the current platform
+- `npm run build` – compile the native addon (runs inside `native/`)
 
 ## Requirements
 - Node.js 18+

@@ -7,3 +7,7 @@ node_modules
 target
 __tests__
 dist
+native/target
+native/index.js
+native/index.d.ts
+native/readibility_native*.node
