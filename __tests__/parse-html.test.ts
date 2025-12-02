@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 
-const { parseHtml, parseMany, nativeVersion } = require("../wrapper.js");
+const { parseHtml, parseMany, nativeVersion } = require("../js/wrapper.js");
 
 describe("parseHtml", () => {
   test("forwards html and url to the native binding", () => {

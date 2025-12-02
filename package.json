@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "description": "Blazing fast TypeScript readability powered by Rust (dom_smoothie + napi-rs)",
   "license": "MIT",
-  "main": "wrapper.js",
-  "types": "wrapper.d.ts",
+  "main": "js/wrapper.js",
+  "types": "js/wrapper.d.ts",
   "type": "commonjs",
   "scripts": {
     "build": "npm run build:native",

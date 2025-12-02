@@ -1,7 +1,7 @@
 "use strict";
 
-// Public JS surface. Uses the generated napi loader at ./index.js.
-const binding = require("./index.js");
+// Public JS surface. Uses the generated napi loader at ../index.js.
+const binding = require("../index.js");
 
 function assertNonEmptyHtml(html) {
   if (typeof html !== "string") {

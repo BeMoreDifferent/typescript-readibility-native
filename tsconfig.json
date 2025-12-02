@@ -15,6 +15,6 @@
   "include": [
     "src",
     "__tests__",
-    "wrapper.d.ts"
+    "js/wrapper.d.ts"
   ]
 }

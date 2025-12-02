@@ -10,7 +10,7 @@ npm run build   # compiles the native addon
 
 ## Usage
 ```js
-const { parseHtml, parseMany, nativeVersion } = require("./wrapper.js");
+const { parseHtml, parseMany, nativeVersion } = require("./js/wrapper.js");
 
 // Single document
 const article = parseHtml(htmlString, { url: "https://example.com/page" });
