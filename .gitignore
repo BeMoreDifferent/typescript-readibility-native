@@ -5,3 +5,6 @@ package-lock.json
 dist
 .turbo
 .DS_Store
+*.node
+index.js
+index.d.ts
