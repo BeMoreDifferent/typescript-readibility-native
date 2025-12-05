@@ -4,13 +4,17 @@ Blazing-fast Readability for Node/TypeScript backed by Rust (`dom_smoothie` + `n
 
 ## Quick start
 ```bash
-npm install
+npm install typescript-readibility-native
 npm run build   # compiles the native addon (uses npx napi in native/)
 ```
 
 ## Usage
 ```js
-const { parseHtml, parseMany, nativeVersion } = require("./js/wrapper.js");
+// CommonJS
+const { parseHtml, parseMany, nativeVersion } = require("typescript-readibility-native");
+
+// ESM
+// import { parseHtml, parseMany, nativeVersion } from "typescript-readibility-native";
 
 // Single document
 const article = parseHtml(htmlString, { url: "https://example.com/page" });
