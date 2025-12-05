@@ -1,6 +1,6 @@
 {
   "name": "typescript-readibility-native",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Blazing fast TypeScript readability powered by Rust (dom_smoothie + napi-rs)",
   "license": "MIT",
   "main": "js/wrapper.js",
