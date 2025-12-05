@@ -44,6 +44,15 @@ describe("parseHtml", () => {
       expect(result.textContent || result.content).toMatch(/fast/i);
     });
   });
+
+  test("handles deeply nested only-child wrappers without crashing", () => {
+    const html =
+      "<div><div><div><section><div><p>Nested keeps content</p></div></section></div></div></div>";
+    const result = parseHtml(html, { url: "https://example.com/nested" });
+    expect(result).toBeTruthy();
+    const text = result.textContent || result.text_content || result.content;
+    expect(text).toMatch(/Nested keeps content/i);
+  });
 });
 
 describe("parseMany", () => {
@@ -71,6 +80,16 @@ describe("parseMany", () => {
         { html: "   " }
       ])
     ).toThrow(/must not be empty/);
+  });
+
+  test("parses batches with nested wrappers", () => {
+    const docs = [
+      { html: "<div><div><div><p>Batch A</p></div></div></div>" },
+      { html: "<section><section><section><p>Batch B</p></section></section></section>" }
+    ];
+    const [a, b] = parseMany(docs);
+    expect((a.text_content || a.textContent || a.content) ?? "").toMatch(/Batch A/i);
+    expect((b.text_content || b.textContent || b.content) ?? "").toMatch(/Batch B/i);
   });
 });
 

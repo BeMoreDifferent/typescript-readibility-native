@@ -16,3 +16,9 @@ thiserror = "1"
 
 [build-dependencies]
 napi-build = "2"
+
+[patch.crates-io]
+dom_smoothie = { path = "dom_smoothie" }
+
+[dev-dependencies]
+dom_query = "0.12"

@@ -88,3 +88,81 @@ pub fn parse_many(
   }
   Ok(out)
 }
+
+#[cfg(test)]
+mod tests {
+  use super::*;
+  use dom_query::Document;
+
+  // Snapshot of the pre-fix logic to demonstrate the panic condition.
+  fn legacy_simplify_panics(html: &str) -> bool {
+    let doc = Document::from(html);
+    let page = doc.select(".page");
+    let ancestor = page.select("#middle").nodes().first().cloned();
+    let descendant = page.select("#inner").nodes().first().cloned();
+    let Some((ancestor, descendant)) = ancestor.zip(descendant) else {
+      return false;
+    };
+
+    std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+      for node in [ancestor, descendant].iter().rev() {
+        // Old implementation panicked when parent nodes were removed earlier in the loop.
+        let parent = node.parent().expect("missing parent");
+        for attr in parent.attrs() {
+          node.set_attr(&attr.name.local, &attr.value);
+        }
+        parent.replace_with(&node.id);
+      }
+      page.select(":is(div, section):empty").remove();
+    }))
+    .is_err()
+  }
+
+  #[test]
+  fn parse_html_handles_stacked_only_children_without_panic() {
+    let candidates = [
+      r#"
+        <div class="page">
+          <div id="outer">
+            <div id="middle">
+              <div id="inner"><p>Text</p></div>
+            </div>
+          </div>
+        </div>
+      "#,
+      r#"
+        <div class="page">
+          <section id="outer">
+            <div id="middle">
+              <section id="inner"><p>Text</p></section>
+            </div>
+          </section>
+        </div>
+      "#,
+      r#"
+        <div class="page">
+          <div id="outer"><div id="middle"><div id="inner"><p>Text</p></div></div></div>
+        </div>
+      "#,
+    ];
+    let mut found_panic = false;
+    for sample in candidates {
+      if legacy_simplify_panics(sample) {
+        found_panic = true;
+        break;
+      }
+    }
+    assert!(found_panic, "expected at least one legacy run to panic");
+
+    let html = "<html><body><div><div><div><p>Keep me</p></div></div></div></body></html>";
+    let parsed = parse_html(html.to_string(), None).expect("native parse_html succeeds");
+    let text = parsed["text_content"].as_str().unwrap_or_default();
+    assert!(text.contains("Keep me"));
+    assert!(
+      parsed["content"]
+        .as_str()
+        .unwrap_or_default()
+        .contains("Keep me")
+    );
+  }
+}
